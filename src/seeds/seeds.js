@@ -7,15 +7,17 @@ const Libro = require('../api/models/libros')
 const lanzarSemilla = async () => {
   try {
     await mongoose.connect(process.env.DB_URL)
-    console.log('Conectado a BBDD')
+    console.log('Conexión establecida')
+
     await Editorial.collection.drop()
-    await Libro.collection.drop()
     await Editorial.insertMany(editoriales)
+    await Libro.collection.drop()
     await Libro.insertMany(libros)
+
     await mongoose.disconnect()
-    console.log('Desonectado de BBDD')
+    console.log('Desconexión realizada')
   } catch (error) {
-    console.log(error)
+    console.error('Error en la conexión')
   }
 }
 

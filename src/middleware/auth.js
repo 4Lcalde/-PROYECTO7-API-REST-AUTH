@@ -14,7 +14,7 @@ const isAuth = async (req, res, next) => {
 
     req.user = user
 
-    // Permitir acciones si es admin o si es el mismo usuario y el método es DELETE
+    // Permito acciones si es admin o si es el mismo usuario y el método es DELETE
     if (
       user.rol === 'admin' ||
       (req.method === 'DELETE' && req.params.id === id)
