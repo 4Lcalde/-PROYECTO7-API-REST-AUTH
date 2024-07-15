@@ -9,10 +9,10 @@ const lanzarSemilla = async () => {
     await mongoose.connect(process.env.DB_URL)
     console.log('Conexión establecida')
 
-    await Editorial.collection.drop()
-    await Editorial.insertMany(editoriales)
     await Libro.collection.drop()
     await Libro.insertMany(libros)
+    await Editorial.collection.drop()
+    await Editorial.insertMany(editoriales)
 
     await mongoose.disconnect()
     console.log('Desconexión realizada')

@@ -12,15 +12,11 @@ const isAuth = async (req, res, next) => {
     const { id } = verifyJWT(parsedToken)
     const user = await User.findById(id)
 
-    req.user = user
-
-    // Permito acciones si es admin o si es el mismo usuario y el método es DELETE
-    if (
-      user.rol === 'admin' ||
-      (req.method === 'DELETE' && req.params.id === id)
-    ) {
-      return next()
+    if (!user) {
+      return res.status(401).json('No estás logueado')
     }
+
+    req.user = user
     return next()
   } catch (error) {
     return res.status(500).json('Error en el servidor')
@@ -46,4 +42,16 @@ const isAdmin = async (req, res, next) => {
   }
 }
 
-module.exports = { isAdmin, isAuth }
+//Añado esta función en donde hago que se verifique si el usuario es rol admin o si el id que me ha solicitado es el mismo que el que me ha volcado la petición.
+const esBorrador = (req, res, next) => {
+  const user = req.user
+  const { id } = req.params
+
+  if (user.rol === 'admin' || user._id.toString() === id) {
+    return next()
+  } else {
+    return res.status(400).json('No estás autorizado')
+  }
+}
+
+module.exports = { isAdmin, isAuth, esBorrador }

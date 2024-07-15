@@ -18,7 +18,6 @@ const librosSchema = new mongoose.Schema(
     },
     editorial: {
       type: mongoose.Types.ObjectId,
-      required: true,
       ref: 'editoriales'
     }
   },
